@@ -3,7 +3,7 @@ extern crate i2p;
 #[test]
 #[ignore]
 fn naming_lookup() {
-	use i2p::sam::SamConnection;
+	use i2p::SamConnection;
 	let mut sam = SamConnection::connect("127.0.0.1:7656").unwrap();
 	{
 		let res = sam.naming_lookup("zzz.i2p");
