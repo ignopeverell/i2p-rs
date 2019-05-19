@@ -5,7 +5,7 @@ use std::option;
 use std::slice;
 use std::vec;
 
-use serde_derive::{Serialize, Deserialize};
+use serde_derive::{Deserialize, Serialize};
 
 use crate::net::i2p::I2pAddr;
 
@@ -270,17 +270,34 @@ mod tests {
 		assert!(tsa("example.i2p:23924").unwrap().contains(&a));
 	}
 
-  #[test]
-  fn to_socket_addr_b32_str() {
-    let a = isa(I2pAddr::new("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p"), 24352);
-    assert_eq!(Ok(vec![a]), tsa("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p:24352"));
+	#[test]
+	fn to_socket_addr_b32_str() {
+		let a = isa(
+			I2pAddr::new("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p"),
+			24352,
+		);
+		assert_eq!(
+			Ok(vec![a]),
+			tsa("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p:24352")
+		);
 
-    let b = I2pAddr::new("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p");
-    assert_eq!(b, I2pAddr::from_b32("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p").unwrap());
+		let b = I2pAddr::new("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p");
+		assert_eq!(
+			b,
+			I2pAddr::from_b32("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p")
+				.unwrap()
+		);
 
-    let a = isa(I2pAddr::new("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p"), 23924);
-    assert!(tsa("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p:23924").unwrap().contains(&a));
-  }
+		let a = isa(
+			I2pAddr::new("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p"),
+			23924,
+		);
+		assert!(
+			tsa("cbuachhxwutpfpkejomn7xel2gdhf6n4fvhde4jog6tcmqbeztdq.b32.i2p:23924")
+				.unwrap()
+				.contains(&a)
+		);
+	}
 
 	#[test]
 	fn to_socket_addr_string() {

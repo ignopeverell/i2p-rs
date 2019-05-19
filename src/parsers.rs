@@ -1,6 +1,4 @@
-use nom::{
-	alphanumeric, alt, do_parse, named, separated_list, space, tag_s, take_till_s,
-};
+use nom::{alphanumeric, alt, do_parse, named, separated_list, space, tag_s, take_till_s};
 
 fn is_space(chr: char) -> bool {
 	chr == ' ' || chr == '\t'
@@ -163,11 +161,15 @@ mod tests {
 		);
 
 		assert_eq!(
-			sam_naming_reply("NAMINGREPLY RESULT=KEY_NOT_FOUND\n").unwrap_err().into_error_kind(),
+			sam_naming_reply("NAMINGREPLY RESULT=KEY_NOT_FOUND\n")
+				.unwrap_err()
+				.into_error_kind(),
 			ErrorKind::Tag
 		);
 		assert_eq!(
-			sam_naming_reply("NAMING  REPLY RESULT=KEY_NOT_FOUND\n").unwrap_err().into_error_kind(),
+			sam_naming_reply("NAMING  REPLY RESULT=KEY_NOT_FOUND\n")
+				.unwrap_err()
+				.into_error_kind(),
 			ErrorKind::Tag
 		);
 	}
