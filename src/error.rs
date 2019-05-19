@@ -111,3 +111,12 @@ impl<I,E> From<nom::Err<I,E>> for Error {
 		}
 	}
 }
+
+impl From<data_encoding::DecodeError> for Error {
+  fn from(err: data_encoding::DecodeError) -> Error {
+    use std::error::Error;
+    self::Error {
+      inner: Context::new(ErrorKind::BadAddressEncoding(err.description().to_string())),
+    }
+  }
+}

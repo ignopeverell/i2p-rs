@@ -1,6 +1,6 @@
 use std::fmt;
 
-use data_encoding::{BASE32, Encoding, Specification};
+use data_encoding::{BASE32, BASE32_NOPAD, Encoding, Specification};
 use lazy_static::lazy_static;
 use log::error;
 use serde_derive::{Serialize, Deserialize};
@@ -9,6 +9,7 @@ use sha2::{Sha256, Digest};
 use crate::error::{Error, ErrorKind};
 
 pub const B32_EXT: &'static str = ".b32.i2p";
+pub const B32_LEN: usize = 52usize;
 
 lazy_static! {
 	static ref BASE64_I2P: Encoding = {
@@ -73,6 +74,22 @@ impl I2pAddr {
 		b32.push_str(B32_EXT);
 		Ok(I2pAddr{inner: b32})
 	}
+
+  /// Creates a new I2P address from a base32 encoded desthash string.
+  /// This checks proper encoding and expected lengths.
+  pub fn from_b32(addr: &str) -> Result<I2pAddr, Error> {
+     let b32_parts: Vec<&str> = addr.split(B32_EXT).collect();
+     if b32_parts.len() != 2 {
+       error!("Invalid Base32 encoded address: {:?}", addr);
+       return Err(ErrorKind::BadAddressEncoding(addr.to_string()).to_err());
+     }
+     if b32_parts[0].len() != B32_LEN {
+       error!("Invalid Base32 encoded length: {:?}, expected: {}", addr, B32_LEN);
+       return Err(ErrorKind::BadAddressEncoding(addr.to_string()).to_err());
+     }
+     BASE32_NOPAD.decode(b32_parts[0].to_uppercase().as_str().as_bytes())?;
+     Ok(I2pAddr{inner: addr.to_string()})
+  }
 
 	/// Returns the String that makes up this address.
 	///
