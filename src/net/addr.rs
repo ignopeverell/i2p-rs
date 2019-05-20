@@ -11,8 +11,8 @@ use crate::net::i2p::I2pAddr;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, Hash)]
 pub struct I2pSocketAddr {
-	port: u16,
 	dest: I2pAddr,
+	port: u16,
 }
 
 impl I2pSocketAddr {
@@ -29,8 +29,8 @@ impl I2pSocketAddr {
 	/// ```
 	pub fn new(dest: I2pAddr, port: u16) -> I2pSocketAddr {
 		I2pSocketAddr {
-			port: port,
 			dest: dest,
+			port: port,
 		}
 	}
 
